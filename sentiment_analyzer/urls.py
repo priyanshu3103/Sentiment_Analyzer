@@ -17,11 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from sentiment import views
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('classify/', views.call_model.as_view()),
+    path('streamlit/', TemplateView.as_view(template_name='streamlit_app.html')),
    
     
 ]
