@@ -8,15 +8,13 @@ The app displays sentiment metrics, emoji representation of sentiment, and token
 Getting Started
 To run this Streamlit app, ensure you have the required libraries installed.
 You can install them using the following commands:
-{pip install streamlit
-pip install textblob
-pip install pandas
-pip install altair
-pip install vaderSentiment}
+![requirement](https://github.com/priyanshu3103/Sentiment_Analyzer/assets/101656280/8fb84322-da87-4a13-a773-efe581960cfd)
+
 
 Running the App:
 Once the dependencies are installed, you can run the app by executing the following command in your terminal:
-        {streamlit run sentiment_app/sentiment_app.py}
+        ![server](https://github.com/priyanshu3103/Sentiment_Analyzer/assets/101656280/8c504c76-9606-40eb-93f3-7f151df3f804)
+
 
 Usage:
 1) The app consists of two sections: "Home" and "About."
