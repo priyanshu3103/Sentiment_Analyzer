@@ -18,12 +18,16 @@ from django.contrib import admin
 from django.urls import path
 from sentiment import views
 from django.views.generic import TemplateView
-
+from sentiment.views import sentiment_analysis
+from sentiment.views import home, about
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('classify/', views.call_model.as_view()),
+    # path('sentiment_analysis/', views.call_model.as_view()),
     path('streamlit/', TemplateView.as_view(template_name='streamlit_app.html')),
+    path('sentiment_analysis/', sentiment_analysis, name='sentiment_analysis'),
+    path('', home, name='home'),
+    path('about/', about, name='about'),
    
     
 ]

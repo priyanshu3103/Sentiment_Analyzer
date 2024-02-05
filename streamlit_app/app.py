@@ -35,7 +35,7 @@ def analyze_token_sentiment(docx):
 
 def main():
 	st.title("Sentiment Analysis NLP App")
-	st.subheader("Streamlit Projects")
+	st.subheader("Natural Language Processing on the Go!")
 
 	menu = ["Home","About"]
 	choice = st.sidebar.selectbox("Menu",menu)
@@ -45,6 +45,49 @@ def main():
 		with st.form(key='nlpForm'):
 			raw_text = st.text_area("Enter Text Here")
 			submit_button = st.form_submit_button(label='Analyze')
+		#Display Visualization from CSV
+		st.subheader("Display Visualization from CSV")
+		csv_file = st.file_uploader("Upload CSV",type=['csv'])
+		if csv_file is not None:
+			df_from_csv = pd.read_csv(csv_file)
+			st.write(df_from_csv)
+			# Visualization
+			c = alt.Chart(df_from_csv).mark_bar().encode(
+				x=alt.X('metric:N', title='Metric'),
+    			y=alt.Y('value:Q', title='Value'),
+    			color='metric:N')	
+			st.altair_chart(c,use_container_width=True)
+				
+	# if choice == "About":
+	# 	st.subheader("Sentiment Analysis:")
+	# 	st.write("""
+    # 	Sentiment analysis is a natural language processing (NLP) technique that involves
+	# 	determining the sentiment or emotion expressed in a piece of text. Streamlit is 
+	# 	a Python library that makes it easy to create web applications for data exploration,
+	# 	visualization, and analysis.Combining sentiment analysis with Streamlit allows you 
+	# 	to build interactive web applications that can analyze and visualize the sentiment
+	# 	of user-provided text.
+			  
+	# 	Here's a theoretical overview of sentiment analysis using Streamlit:
+
+	# 	Sentiment Analysis:
+			  
+	# 	Sentiment analysis, also known as opinion mining, is the process of determining the
+	# 	sentiment or emotion expressed in a given piece of text. The primary goal is to understand
+	# 	whether the text conveys a positive, negative, or neutral sentiment. Sentiment analysis is 
+	# 	widely used in various applications, including customer feedback analysis, social media 
+	# 	monitoring, and product reviews.
+	# 	""")
+
+
+
+
+
+
+
+
+
+
 
 		# layout
 		col1,col2 = st.columns(2)
