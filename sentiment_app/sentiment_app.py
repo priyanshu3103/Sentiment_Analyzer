@@ -1,4 +1,3 @@
-
 import streamlit as st  
 from textblob import TextBlob
 import pandas as pd
@@ -31,6 +30,15 @@ def analyze_token_sentiment(docx):
 
 	result = {'positives':pos_list,'negatives':neg_list,'neutral':neu_list}
 	return result 
+# Function to categorize sentiment
+def categorize_sentiment(sentiment):
+    if sentiment > 0:
+        return 'Positive'
+    elif sentiment < 0:
+        return 'Negative'
+    else:
+        return 'Neutral'
+
 
 # Function to categorize sentiment
 def categorize_sentiment(sentiment):
@@ -60,32 +68,12 @@ def main():
 		if csv_file is not None:
 			df_from_csv = pd.read_csv(csv_file)
 			st.write(df_from_csv)
-			# Add a new column for sentiment analysis
-			df_from_csv['Sentiment'] = df_from_csv['review'].apply(lambda x: TextBlob(str(x)).sentiment.polarity)
-
-			# Streamlit app
-			st.title('Sentiment Analysis on CSV Data')
-
-			# Display the original DataFrame
-			st.subheader('Original Data:')
-			st.write(df_from_csv)
-
-			# Display sentiment analysis results
-			st.subheader('Sentiment Analysis Results:')
-			df_from_csv['Sentiment'] = df_from_csv['review'].apply(lambda x: TextBlob(str(x)).sentiment.polarity)
-			df_from_csv['Sentiment_Category'] = df_from_csv['Sentiment'].apply(categorize_sentiment)
-			st.write(df_from_csv[['review', 'Sentiment_Category']])
-
-			# Optionally, you can display a bar chart for sentiment distribution
-			st.subheader('Sentiment Distribution:')
-			sentiment_chart = st.bar_chart(df_from_csv['Sentiment_Category'].value_counts())
-			
-
-			# Add sentiment labels to the bar chart
-			for sentiment_category, count in df_from_csv['Sentiment_Category'].value_counts().items():
-				st.text(f'{sentiment_category}: {count}')
-    		
-			# You can further customize the Streamlit app based on your requirements.)
+			# Visualization
+			c = alt.Chart(df_from_csv).mark_bar().encode(
+				x=alt.X('metric:N', title='Metric'),
+    			y=alt.Y('value:Q', title='Value'),
+    			color='metric:N')	
+			st.altair_chart(c,use_container_width=True)
 				
 	
 
