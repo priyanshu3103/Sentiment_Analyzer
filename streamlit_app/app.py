@@ -38,7 +38,7 @@ def main():
 	st.subheader("Natural Language Processing on the Go!")
 
 	menu = ["Home","About"]
-	choice = st.sidebar.selectbox("Menu",menu)
+	choice = st.sidebar.selectbox("Menu", menu, index=0, key="readonly_selectbox")
 
 	if choice == "Home":
 		st.subheader("Home")
@@ -58,26 +58,7 @@ def main():
     			color='metric:N')	
 			st.altair_chart(c,use_container_width=True)
 				
-	# if choice == "About":
-	# 	st.subheader("Sentiment Analysis:")
-	# 	st.write("""
-    # 	Sentiment analysis is a natural language processing (NLP) technique that involves
-	# 	determining the sentiment or emotion expressed in a piece of text. Streamlit is 
-	# 	a Python library that makes it easy to create web applications for data exploration,
-	# 	visualization, and analysis.Combining sentiment analysis with Streamlit allows you 
-	# 	to build interactive web applications that can analyze and visualize the sentiment
-	# 	of user-provided text.
-			  
-	# 	Here's a theoretical overview of sentiment analysis using Streamlit:
-
-	# 	Sentiment Analysis:
-			  
-	# 	Sentiment analysis, also known as opinion mining, is the process of determining the
-	# 	sentiment or emotion expressed in a given piece of text. The primary goal is to understand
-	# 	whether the text conveys a positive, negative, or neutral sentiment. Sentiment analysis is 
-	# 	widely used in various applications, including customer feedback analysis, social media 
-	# 	monitoring, and product reviews.
-	# 	""")
+	
 
 
 
@@ -125,9 +106,63 @@ def main():
 				token_sentiments = analyze_token_sentiment(raw_text)
 				st.write(token_sentiments)
 
+	elif choice == "About":
+		st.subheader("Sentiment Analysis:")
+		st.markdown("""
+    	Sentiment analysis is a natural language processing (NLP) technique that involves
+		determining the sentiment or emotion expressed in a piece of text. Streamlit is 
+		a Python library that makes it easy to create web applications for data exploration,
+		visualization, and analysis.Combining sentiment analysis with Streamlit allows you 
+		to build interactive web applications that can analyze and visualize the sentiment
+		of user-provided text.
+			  
+		Here's a theoretical overview of sentiment analysis using Streamlit:
+
+		Sentiment Analysis:
+			  
+		Sentiment analysis, also known as opinion mining, is the process of determining the
+		sentiment or emotion expressed in a given piece of text. The primary goal is to understand
+		whether the text conveys a positive, negative, or neutral sentiment. Sentiment analysis is 
+		widely used in various applications, including customer feedback analysis, social media 
+		monitoring, and product reviews.
+		   
+
+
+		Techniques for Sentiment Analysis:
+		Rule-Based Approaches: 
+		   These approaches use predefined rules and lexicons to determine sentiment. For example, 
+			the VADER (Valence Aware Dictionary and sEntiment Reasoner) sentiment analysis tool is a 
+			rule-based approach commonly used for sentiment analysis.
+
+		Machine Learning Approaches: 
+		   These approaches involve training machine learning models on labeled datasets to predict sentiment.
+			Common algorithms include Naive Bayes, Support Vector Machines (SVM), and deep learning models 
+			like recurrent neural networks (RNNs) and transformers.
+
+		Streamlit for Web Applications:
+		   Streamlit is a Python library that simplifies the process of creating web applications.
+			 It is designed to be easy to use, enabling developers to create interactive web apps with minimal code.
+			 Here's how you can integrate sentiment analysis with Streamlit:
+
+		Streamlit Basics:
+			Installation:
+
+				You can install Streamlit using pip:
+				pip install streamlit
+		   
+			Creating a Streamlit App:
+		   		A Streamlit app is typically a Python script that contains sections
+		   		 for defining the UI elements and the logic of the app.
+			UI Components:
+		   		Streamlit provides UI components like st.title(), st.text(), st.button(),
+		   		 and st.text_area() to create a user interface.
+			Interactivity:
+		   Use components like st.button() and st.form() to make your app interactive.	
+		""")
 
 	else:
 		st.subheader("About")
+
 
 
 if __name__ == '__main__':
