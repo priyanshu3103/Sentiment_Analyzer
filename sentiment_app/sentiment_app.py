@@ -38,6 +38,15 @@ def categorize_sentiment(sentiment):
         return 'Negative'
     else:
         return 'Neutral'
+	
+# Function to automatically detect the text column in the DataFrame
+def detect_text_column(df):
+    text_column = None
+    for column in df.columns:
+        if pd.api.types.is_string_dtype(df[column]):
+            text_column = column
+            break
+    return text_column
 
 
 
@@ -46,7 +55,9 @@ def main():
 	st.subheader("Natural Language Processing on the Go!")
 
 	menu = ["Home","About"]
-	choice = st.sidebar.selectbox("Menu", menu, index=0, key="readonly_selectbox")
+	# Navigation bar at left top corner
+	choice = st.sidebar.radio('Navigation', ['Home', 'About'])
+
 
 	if choice == "Home":
 		st.subheader("Home")
@@ -59,30 +70,36 @@ def main():
 		if csv_file is not None:
 			df_from_csv = pd.read_csv(csv_file)
 			st.write(df_from_csv)
+			# Automatically detect the text column
+			text_column = detect_text_column(df_from_csv)
 			
-			# Add a new column for sentiment analysis
-			df_from_csv['Sentiment'] = df_from_csv['review'].apply(lambda x: TextBlob(str(x)).sentiment.polarity)
+			if text_column:
+				# Add a new column for sentiment analysis
+				df_from_csv['Sentiment'] = df_from_csv[text_column].apply(lambda x: TextBlob(str(x)).sentiment.polarity)
 
-			# Streamlit app
-			st.title('Sentiment Analysis on CSV Data')
+				# Streamlit app
+				st.title('Sentiment Analysis on CSV Data')
 
-			# Display the original DataFrame
-			st.subheader('Original Data:')
-			st.write(df_from_csv)
+				# Display the original DataFrame
+				st.subheader('Original Data:')
+				st.write(df_from_csv)
 
-			# Display sentiment analysis results
-			st.subheader('Sentiment Analysis Results:')
-			df_from_csv['Sentiment'] = df_from_csv['review'].apply(lambda x: TextBlob(str(x)).sentiment.polarity)
-			df_from_csv['Sentiment_Category'] = df_from_csv['Sentiment'].apply(categorize_sentiment)
-			st.write(df_from_csv[['review', 'Sentiment_Category']])
+				# Display sentiment analysis results
+				st.subheader('Sentiment Analysis Results:')
+				df_from_csv['Sentiment'] = df_from_csv['review'].apply(lambda x: TextBlob(str(x)).sentiment.polarity)
+				df_from_csv['Sentiment_Category'] = df_from_csv['Sentiment'].apply(categorize_sentiment)
+				st.write(df_from_csv[['review', 'Sentiment_Category']])
 
-			# Optionally, you can display a bar chart for sentiment distribution
-			st.subheader('Sentiment Distribution:')
-			sentiment_chart = st.bar_chart(df_from_csv['Sentiment_Category'].value_counts())
+				# Optionally, you can display a bar chart for sentiment distribution
+				st.subheader('Sentiment Distribution:')
+				sentiment_chart = st.bar_chart(df_from_csv['Sentiment_Category'].value_counts())
 			
-			# Add sentiment labels to the bar chart
-			for sentiment_category, count in df_from_csv['Sentiment_Category'].value_counts().items():
-    			st.text(f'{sentiment_category}: {count}')
+				# Add sentiment labels to the bar chart
+				for sentiment_category, count in df_from_csv['Sentiment_Category'].value_counts().items():
+					st.text(f'{sentiment_category}: {count}')
+			else:
+				st.warning('No suitable text column found in the CSV file.')
+    			
 			# You can further customize the Streamlit app based on your requirements.
 			
 			
