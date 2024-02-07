@@ -143,6 +143,13 @@ def main():
 					y='value',
 					color='metric')
 				st.altair_chart(c,use_container_width=True)
+				# Display sentiment label with big emoji
+				if sentiment.polarity > 0:
+					st.image('emojis\green-.png', caption="Positive Sentiment", width=200)
+				elif sentiment.polarity < 0:
+					st.image('emojis\red-.png', caption="Negative Sentiment", width=200)
+				else:
+					st.image('emojis\yellow-.png', caption="Neutral Sentiment", width=200)
 
 
 
