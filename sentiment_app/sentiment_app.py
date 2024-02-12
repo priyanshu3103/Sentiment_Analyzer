@@ -2,6 +2,8 @@ import streamlit as st
 from textblob import TextBlob
 import pandas as pd
 import altair as alt
+import matplotlib.pyplot as plt
+import seaborn as sns
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
@@ -9,7 +11,17 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 def convert_to_df(sentiment):
 	sentiment_dict = {'polarity':sentiment.polarity,'subjectivity':sentiment.subjectivity}
 	sentiment_df = pd.DataFrame(sentiment_dict.items(),columns=['metric','value'])
+	
 	return sentiment_df
+	
+def convert(sentiment):
+	result_df = pd.DataFrame({
+        'metric': ['Positive', 'Negative', 'Neutral'],
+        'value': [sentiment.polarity if sentiment.polarity > 0 else 0,
+                  abs(sentiment.polarity) if sentiment.polarity < 0 else 0,
+                  1 if sentiment.polarity == 0 else 0]
+    })
+	return result_df
 
 def analyze_token_sentiment(docx):
 	analyzer = SentimentIntensityAnalyzer()
@@ -38,7 +50,10 @@ def categorize_sentiment(sentiment):
         return 'Negative'
     else:
         return 'Neutral'
+<<<<<<< HEAD
 	
+=======
+>>>>>>> origin/main
 # Function to automatically detect the text column in the DataFrame
 def detect_text_column(df):
     text_column = None
@@ -55,12 +70,17 @@ def main():
 	st.subheader("Natural Language Processing on the Go!")
 
 	menu = ["Home","About"]
+<<<<<<< HEAD
 	# Navigation bar at left top corner
 	choice = st.sidebar.radio('Navigation', ['Home', 'About'])
 
+=======
+	# Navigation bar at the left top corner
+	choice = st.sidebar.radio('Navigation', ['Home', 'About'])
+>>>>>>> origin/main
 
 	if choice == "Home":
-		st.subheader("Home")
+		st.subheader("Sentiment Analysis with TextBlob")
 		with st.form(key='nlpForm'):
 			raw_text = st.text_area("Enter Text Here")
 			submit_button = st.form_submit_button(label='Analyze')
@@ -100,7 +120,10 @@ def main():
 			else:
 				st.warning('No suitable text column found in the CSV file.')
     			
-			# You can further customize the Streamlit app based on your requirements.
+				# You can further customize the Streamlit app based on your requirements.
+				# For example, you can add additional visualizations, filters, and interactivity to the app.
+				# You can also deploy the app to a web server or share it with others using Streamlit Sharing.
+
 			
 			
 				
@@ -132,7 +155,8 @@ def main():
 					st.markdown("Sentiment:: Negative :angry: ")
 				else:
 					st.markdown("Sentiment:: Neutral 😐 ")
-
+    				
+				
 				# Dataframe
 				result_df = convert_to_df(sentiment)
 				st.dataframe(result_df)
@@ -151,6 +175,19 @@ def main():
 				else:
 					st.image('emojis\yellow-.png', caption="Neutral Sentiment", width=200)
 
+				# Display sentiment label with big emoji
+				if sentiment.polarity > 0:
+					st.image('emojis\green-.png', caption="Positive Sentiment", width=200)
+				elif sentiment.polarity < 0:
+					st.image('emojis\red-.png', caption="Negative Sentiment", width=200)
+				else:
+					st.image('emojis\yellow-.png', caption="Neutral Sentiment", width=200)
+				
+				
+				
+
+				
+
 
 
 			with col2:
@@ -158,6 +195,13 @@ def main():
 
 				token_sentiments = analyze_token_sentiment(raw_text)
 				st.write(token_sentiments)
+				# Display the token sentiment analysis results
+				st.subheader('Token Sentiment Analysis Results:')
+				st.write(token_sentiments)
+				# Optionally, you can display a bar chart for sentiment distribution
+				st.subheader('Sentiment Distribution:')
+				sentiment_chart = st.bar_chart(token_sentiments)
+				
 
 	elif choice == "About":
 		st.subheader("Sentiment Analysis:")
