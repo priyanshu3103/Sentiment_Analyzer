@@ -50,10 +50,7 @@ def categorize_sentiment(sentiment):
         return 'Negative'
     else:
         return 'Neutral'
-<<<<<<< HEAD
 	
-=======
->>>>>>> origin/main
 # Function to automatically detect the text column in the DataFrame
 def detect_text_column(df):
     text_column = None
@@ -70,14 +67,9 @@ def main():
 	st.subheader("Natural Language Processing on the Go!")
 
 	menu = ["Home","About"]
-<<<<<<< HEAD
 	# Navigation bar at left top corner
 	choice = st.sidebar.radio('Navigation', ['Home', 'About'])
 
-=======
-	# Navigation bar at the left top corner
-	choice = st.sidebar.radio('Navigation', ['Home', 'About'])
->>>>>>> origin/main
 
 	if choice == "Home":
 		st.subheader("Sentiment Analysis with TextBlob")
@@ -116,7 +108,8 @@ def main():
 			
 				# Add sentiment labels to the bar chart
 				for sentiment_category, count in df_from_csv['Sentiment_Category'].value_counts().items():
-					st.text(f'{sentiment_category}: {count}')
+					emoji = '😃' if sentiment_category == 'Positive' else ('😠' if sentiment_category == 'Negative' else '😐')
+					st.text(f'{sentiment_category} {emoji}: {count}')
 			else:
 				st.warning('No suitable text column found in the CSV file.')
     			
@@ -175,13 +168,6 @@ def main():
 				else:
 					st.image('emojis\yellow-.png', caption="Neutral Sentiment", width=200)
 
-				# Display sentiment label with big emoji
-				if sentiment.polarity > 0:
-					st.image('emojis\green-.png', caption="Positive Sentiment", width=200)
-				elif sentiment.polarity < 0:
-					st.image('emojis\red-.png', caption="Negative Sentiment", width=200)
-				else:
-					st.image('emojis\yellow-.png', caption="Neutral Sentiment", width=200)
 				
 				
 				
